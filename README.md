@@ -1,1 +1,1560 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <meta name="description" content="Predictive maintenance engine diagnostics – RSU postgraduate research tool">
+    <meta name="theme-color" content="#ffffff">
+    <title>Predictive Maintenance | Engine Diagnostics</title>
+    <style>
+    
+  /* RESET & BASE */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        
+        html, body {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+            background: #ffffff;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Times New Roman', Times, serif;
+            scroll-behavior: smooth;
+        }
+
+        
+    body {
+      background: rgba(10,12,25,1.0);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      color: #eef2ff;
+      line-height: 1.5;
+    padding: 0%; 
+   overflow-x: hidden; /* Fixed typo */
+    box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+}
+
+/* Optional: Additional protection against overflow */
+* {
+    box-sizing: border-box; /* Apply border-box to all elements */
+}
+
+/* Ensure images and media don't cause horizontal overflow */
+img, video, iframe, object, embed {
+    max-width: 100%;
+    height: auto;
+}
+
+    
+
+   /* improve sticky title + typography */
+        h1 {
+            position: relative;
+            top: 0;
+            max-width: 100%; 
+min-width: 100%; 
+width: 100%; 
+            height: auto;
+            background: white;
+            z-index: 10;
+            font-size: clamp(28px, 6vw, 52px);
+            text-align: center;
+            text-transform: uppercase;
+            font-weight: 550;
+            color: rgba(255,255,255,1.0); 
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1.25;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+            font-family: 'Times New Roman', Georgia, serif;
+            padding: 5% 0% 3% 0%;
+            margin: 0% 0% 0% 0%;
+            border-radius: 0px;
+            background: linear-gradient(125deg, rgba(28, 78, 100, 1.0), rgba(18, 55, 68, 1.0));
+            text-align: center;
+        }
+
+        
+    
+        /* footer refined */
+        footer {
+        position: relative;
+        height: 55vh;
+            text-align: center;
+            color: rgba(225,225,255,1.0);
+            margin:  0vw 0vw 0vw 0vw;
+            font-size: clamp(14px, 4.5vw, 17px);
+            line-height: 1.5;
+            font-size: 4.4vw;
+            cursor: pointer;
+            font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+            padding: 12% 5% 0% 5%;
+            border-top: 3vw solid rgba(255,225,255,0.0);
+            font-weight: 450;
+            background:#0b1c2c;
+            background: rgba(12, 38, 58, 1.0);
+        }
+
+        /* main container (myUL) improvements */
+        #myUL {
+            column-count: 1;
+            column-gap: 3vw;
+            margin: 0;
+            padding: 0vw 0vw 0vw 0vw;
+            margin: 3% 0% 0% 0%;
+            background: rgba(7, 31, 96, 0.04);
+            list-style: none;
+            overflow-x: hidden;
+            width: 100%;
+        }
+        
+#myUL, li, a {
+text-decoration: none;
+  list-style-type: none;
+    }
+
+        @media (min-width: 720px) {
+            #myUL {
+                column-count: 2;
+                column-gap: 2.5vw;
+                padding: 2vw 3vw 5vw 3vw;
+            }
+        }
+
+        /* card styling (li-b) */
+        .li-b {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            margin: 0 0 2.55vw 0;
+            padding: 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            border: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            background: rgba(215, 240, 250, 1.0);
+        }
+        
+
+  /* card styling (li-b) */
+        .li-bs {        
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.02);
+            margin: 0 0 2.55vw 0;
+            padding: 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            break-inside: avoid;
+            page-break-inside: avoid;
+            border: 1px solid rgba(0,0,0,0.05);
+            cursor: pointer;
+            background:-color: rgba(225,225,255,0.0);; 
+        }
+
+
+        .li-b:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(0,0,0,0.08);
+        }
+
+        .txt-k {
+            padding: 5% 5% 6% 5%;
+            font-size: clamp(21px, 4.5vw, 17px);
+            line-height: 1.5;
+            color:black; rgba(255,255,255,1.0);
+            font-weight: 400;
+            text-align: left;
+            word-break: break-word;
+            white-space: normal;
+        }
+        
+
+.txt-ks {
+            padding: 0% 5% 0% 5%;
+            font-size: clamp(21px, 4.5vw, 17px);
+            line-height: 1.5;
+            color: #1e2a32;
+            font-weight: 400;
+            text-align: left;
+            word-break: break-word;
+            white-space: normal;
+        }
+
+        .txt-k strong {
+            color: #c13b0a;
+            font-weight: 650;
+            display: inline;
+            color: rgba(5,105,5,1.0);
+            text-transform: uppercase; 
+        }
+        
+
+        .multi strong {
+            color: #b45b0f;
+            font-weight: 00;
+            font-family: sans-serif;
+        }
+
+      
+       
+        /* MODAL (search & calculator) unified elegant style */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,1.0);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-content {
+            max-width: 96%;
+            width: 100%;
+            background: rgba(255,255,255,1.0);
+            border-radius: 48px 32px 48px 32px;
+            overflow-y: auto;
+            max-height: 100vh;
+            padding: 2vw 0vw 2vw;
+            box-shadow: 0 30px 40px rgba(0,0,0,0.0);
+            border: 1px solid rgba(255,255,255,1.0);
+        }
+
+        /* textarea inside modals */
+        textarea.search-textarea, textarea.calc-textarea {
+            width: 100%;
+            height: 38vw;
+            background: #0a2f44;
+            border: 2px solid #ffb347;
+            border-radius: 28px;
+            font-size: clamp(18px, 5.5vw, 28px);
+            color: #f0f9ff;
+            padding: 5% 4%;
+            font-family: 'Courier New', monospace;
+            resize: none;
+            outline: none;
+            margin-bottom: 4vw;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* button grids */
+        .flex-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2vw;
+            margin: 3vw 0;
+            justify-content: center;
+        }
+
+        .btn-neo {
+            background: #1f4a6e;
+            border: none;
+            font-size: clamp(16px, 5vw, 24px);
+            padding: 2.5vw 0;
+            border-radius: 0px;
+            color: white;
+            font-weight: 500;
+            text-align: center;
+            flex: 1 0 22%;
+            transition: 0.15s linear;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            font-family: system-ui;
+        }
+
+        .btn-neo:active {
+            transform: scale(0.97);
+            background: #0e3752;
+        }
+
+        .btn-exit {
+            background: #2c3e50;
+        }
+
+        .key-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2vw;
+            margin: 2vw 0;
+        }
+
+        .key-btn {
+            
+        .key-btn:active { background: #124263; transform: scale(0.96);}
+
+        .space-row {
+            display: flex;
+            gap: 2vw;
+            margin: 2vw 0;
+        }
+
+        .space-btn {
+            flex: 1;
+            background: #326a8a;
+        }
+
+        /* fixed bottom buttons (search/calculator) */
+        .flex-containercs {
+            position: fixed;
+            bottom: 2%;
+            left: 0;
+            right: 0;
+            display: flex;
+            gap: 5vw;
+            padding: 0 4vw;
+            z-index: 100;
+            justify-content: center;
+        }
+
+        #butcs {
+            background: #1f4a6e;
+            border: none;
+            font-size: clamp(18px, 5.5vw, 24px);
+            font-weight: 600;
+            padding: 3vw 0;
+            border-radius: 60px;
+            color: white;
+            text-align: center;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: 0.2s;
+            letter-spacing: 1px;
+        }
+
+        #butcs:active {
+            transform: scale(0.97);
+            background: #0e3a55;
+        }
+
+        .flex-containercs > div {
+            flex: 1;
+        }
+
+        /* result count badges */
+        #resultCount, #resultCount-cal {
+            background: #000000aa;
+            display: inline-block;
+            padding: 2vw 3vw;
+            border-radius: 60px;
+            font-size: clamp(14px, 4vw, 18px);
+            margin-bottom: 3vw;
+            text-align: center;
+            color: #ffdd99;
+            font-weight: 600;
+        }
+
+        .hidden, .hidden-cal {
+            display: none;
+        }
+
+        /* preloader spinner (optional improvement) */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s;
+        }    
+        
+                @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* improved text selection */
+        ::selection {
+            background: #ffccaa;
+            color: #1f2d3a;
+        }
+       
+        
+
+/* Link styling */
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+}
+
+
+
+
+       
+       table {
+    width: 100%;
+    min-width: 100%;
+    height: auto;
+    padding: 0%; 
+    border-collapse: collapse;
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    }
+    
+    
+th, td { 
+    border: 1px solid #000; 
+    padding: 6px; 10px;
+    vertical-align: middle;
+    text-align: left;
+    line-height: 1.15; 
+}
+
+
+
+/* For Firefox */
+@-moz-document url-prefix() {
+    table {
+        display: table;
+    }
+
+}
+
+
+
+
+
+
+
+
+/* Site-Logo */
+.site_logo{
+    background: var(--global-image);
+    display: inline-block;
+    background-size: contain;
+    width: calc(var(--global-image-width)*0.5);
+    height: calc(var(--global-image-height)*0.5);
+    float: left;
+    position: absolute;
+top: 5px;
+left: 0%;  
+    border: 0vw solid rgb(255,255,255);
+}
+
+
+#site_logo{
+  --global-image: rgba(255,255,255,0.0) url('/storage/360F-82FB/Android/data/org.chicha.tmarkor/files/T-MARKOR REPOSITORY/PICTURES/NextStore Logo.png');
+  --global-image-width: 120px;
+  --global-image-height: 120px;
+  margin: 0px 0pd 0px 0px;
+}
+
+
+
+
+
+/* Slides Scroll **/
+div {
+text-align: center; 
+width: device-width;
+height: auto;
+overflow: auto; 
+ overflow-y: hidden;
+    overflow-x: scroll;
+white-space: nowrap;
+scroll-behavior: smooth; scroll-snap-type: x mandatory; 
+position: relative; 
+margin: 0% 0% 0% 0% ; 
+transform: scale(1.0); 
+transform: rotate(0deg); 
+line-height: 0%; 
+font-family: sans-serif-thin; color:rgb(255,255,255); 
+float: center; 
+text-align:center;
+}
+
+
+
+/* Image Display on Slides **/
+img{
+position: relative;
+top:0px;
+left:0px;
+border: 0px solid rgb(255,255,255);
+border-radius: 0.9vw; background-color:rgb(255,255,255);  
+display: inline-block;
+margin: 0px 0px; 
+padding-top: calc(0rem + 0vmin); margin: 0% 0% 0% 0% ; padding-bottom: 0%;
+transform: rotate(0deg); 
+flex-shrink: 0;
+float: center; 
+text-align:center;
+content-align:center;
+flex-shrink: 0; 
+scroll-snap-align: center;  scroll-snap-align: center;  scroll-snap-stop: always;
+float: center; 
+text-align:center;
+content-align:center;
+}
+
+
+
+
+
+
+
+    </style>
+    
+
+
+
+
+<!-- Begining of remotestyle --!>
+
+
+
+<style>
+
+
+.,span{
+position: relative;
+            top: 0;
+            left: 0;
+padding: 5% 5% 6% 5%;
+            font-size: clamp(21px, 4.5vw, 17px);
+            line-height: 1.5;
+            color: #1e2a32;
+            font-weight: 400;
+            text-align: left;
+            word-break: break-word;
+            white-space: normal;
+}
+
+
+#text1:after {
+    content: '\ Engine misfires, rough idle, hard starting, poor fuel economy. The gap between the electrodes on the spark plug has widened significantly compared to specification.';
+}
+
+
+
+#text2:after {
+    content: '\  Inspect spark plug for wet carbon or oily deposits. Check air filter and fuel system. Perform compression test if oil fouling is suspected. Replace plugs after addressing the root cause.';
+}
+
+
+
+
+#text3:after {
+    content: '\  Inspect spark plug for wet carbon or oily deposits. Check air filter and fuel system. Perform compression test if oil fouling is suspected. Replace plugs after addressing the root cause.';
+}
+
+
+
+
+
+
+
+#textD:after {
+    content: '\25BC';
+}
+
+
+
+
+#textR:after {
+    content: '\25B6';
+}
+
+
+
+
+
+#textNoD:after {
+    content: '\No ';
+}
+
+
+
+#textD:after {
+    content: '\▼';
+}
+
+
+
+
+
+
+#textR:after {
+    content: '\ ▶';
+}
+
+
+
+
+#textYR:after {
+    content: '\Yes ▶';
+}
+
+
+
+
+
+#textEnd:after {
+    content: '\ End';
+}
+
+
+
+
+.arrowR {
+position: absolute;
+bottom: 9vh;
+right: 5%;
+line-height:0;
+font-size: 6vw; color: rgba(193,59,10,1.0);
+}
+
+
+
+
+
+.arrowNoD {
+ position: absolute;
+bottom: 4vh;
+left: 0%;
+line-height:1;
+font-size: 6vw; color: rgba(193,59,10,1.0);
+}
+
+
+
+.arrowD {
+ position: absolute;
+bottom: 2vh;
+left: 48%;
+line-height:1;
+font-size: 6vw; color: rgba(193,59,10,1.0);
+}
+
+
+
+
+
+.arrowEnd {
+position: absolute;
+bottom: 9vh;
+right: 5%;
+line-height:0;
+font-size: 6vw; color: rgba(193,59,10,1.0);
+}
+
+
+  </style>
+
+      
+
+
+
+
+<!-- End of remotestyle --!>
+
+
+
+
+
+
+
+
+
+
+
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.flex-container > div {
+  background-color: rgba(255,255,255,1.0);
+  color: rgba(0,0,0,1.0);
+  width: 100%;
+  height: auto;
+  margin: 0vw;
+  text-align: center;
+  background: rgba(10,12,25,1.0);
+  float: center;
+  color:rgb(255,255,255); 
+  background: rgba(10, 18, 28, 1.0);
+}
+
+
+</style>
+
+
+<div class="flex-container">
+  <div>  
+</head>
+<body>
+
+
+
+ <div class="design4-right" style="position: relative;
+ top: 0vh;
+  background: linear-gradient(125deg, rgba(28, 78, 100, 1.0), rgba(18, 55, 68, 1.0));
+  font-size: 5vw;
+      padding: 0% 5% 3% 5%;
+            margin: 0vw 0vw 0vw 0vw;
+      color: white;
+      z-index: 10;
+      border-radius: 0rem;
+      text-align: center;">
+      
+      
+    
+<h1> TROUBLESHOOTING Guide For Auto Engines  </h1>
+        <span class="sub">— CONCISE ENGINE DIAGNOSTICS —</span>
+        <hr></hr>
+      </div
+
+      
+
+    
+</header>
+
+
+<!-- ======== Main Content =========== -->
+
+
+  </div>
+  
+
+
+
+
+
+
+  
+  <div>
+  
+
+   
+    
+  <!-- NOTE 1 --!>
+  
+
+
+  
+
+
+
+
+<style>
+
+
+/* textarea::placeholder */
+textarea::placeholder {
+  color:rgba(255,255,255,0.4); 
+  font-size: 6vw;
+  font-style: italic;
+  font-family: Arial, sans-serif;
+  opacity: 1; /* Firefox applies lower opacity by default */
+}
+
+.search_textarea {
+position: relative;
+top: 0px;
+left: 0%;  
+width: 84%; 
+height: 15vw;
+border: 0.5vw groove rgba(255,188,122,1.0);
+border-radius: 0vw;
+border-bottom-left-radius: 8vw; border-top-left-radius: 8vw;
+font-size: 6vw; 
+font-weight:0;
+background-color:rgba(7,31.33,50.66,1.0); 
+box-shadow: rgba(0,0,0,0.5) 0px 5px 0px 0px;
+font-family: Arial, Helvetica,sans-serif; sans-serif-regular; 
+color: rgba(255,255,255,1.0); 
+display: inline-block;margin: 0px 0px 0px 0px ; 
+padding: 2% 5% 2% 20% ;
+margin: 0vw 0vw 0vw 0vw;
+line-height:1.35; 
+outline:0;
+float: left; 
+text-align: left; 
+text-justify: left;
+resize: none;
+}
+
+</style>
+
+
+
+
+  
+  
+
+		
+			<form name="search"><div id="resultCount"></div>
+
+
+
+ <textarea type="search" id="myInput"
+onclick="myFunction()" class="search_textarea" rows="1" placeholder=" Type keywords..." style=" pointer-events:yes;"  name="text"></textarea>
+
+	
+
+    
+
+
+
+<style>
+
+.flex-container1 {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(7,31.33,50.66,0.8);
+  width: 100%;
+  height: auto;
+  transform: scale(1.0, 1.0); /* X scale, Y scale */
+  z-index: 0;
+  color: rgba(255,255,255,0.5);font-size: 5vw;
+  line-height:1.76;
+}
+
+
+
+overflow-x: hidden; /* Fixed typo */
+
+
+</style>
+
+
+
+
+
+
+<div class="flex-container1">
+
+   
+<div id="but33" onclick="document.getElementById('demo').style.display='block'"> 
+  <input type="reset" style="position: absolute; top: -17vw; left: 0vw; width: 25vw;  height: 18vw; background-color: rgba(11,28,44,0.0); font-family: sans-serif-regular; color: rgba(255,188,122,1.0); font-weight: 300; font-size:8vw; line-height:2.4; outline:0; float: left; z-index:2000; transform: rotate(0deg);" value=" ⨉ " onclick="myFunctionCal()" name="clear-cal" id="nav_but-cal" class="btn-cal btn-success-cal">
+</div>
+   
+  
+
+      <a href="#"  id="but33" type="submit" style="position: absolute; top: -15.3vw; right: 0vw; width: 16vw;  height: 16.1vw; border: 0.4vw groove rgba(255,188,122,1.0); background-color: rgba(255,188,122,1.0); font-family: sans-serif-regular; color: rgba(0,0,0,1.0); font-weight: 300; font-size:15vw; line-height:1; float: right; z-index:100; transform: rotate(-90deg);  border-bottom-left-radius: 8vw; border-bottom-right-radius: 8vw;" onclick="myFunction(); document.getElementById('demo').style.display='none'" >⌕ </a> 
+  
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+
+
+</form>
+
+</div>
+
+</div>
+
+ <!-- CAPLOCK --!>
+ 
+
+  </div>
+  
+
+
+
+
+<div>
+  
+
+
+
+
+  <div id="demo">
+
+
+<style>
+
+    /* paragraph multi (dissertation block) */
+        .multi {
+        position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            column-count: 1;
+            background: rgba(10,12,25,1.0);
+            padding: 0% 5% 0% 5%;
+            margin: 0vw 3vw 0vw 3vw;
+            border-radius: 32px;
+            font-size: clamp(21px, 4.8vw, 18px);
+            line-height: 1.5;
+            color: #1f2d3a;
+            border: 0px solid #ffe2cc;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.02);
+        }
+
+</style>
+
+
+
+
+
+
+
+  <style>
+  
+ 
+    .hero h1 {
+      font-size: clamp(1.0rem, 5vw, 3.8rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFD966, #FF8C42, #E63946);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .engine-badge span {
+      background: #1e2438;
+      padding: 0.25rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      color: #ffb347;
+      border: 1px solid rgba(255,179,71,0.2);
+    }
+     
+
+  </style>
+
+      
+
+
+
+
+<!-- End of remotestyle --!>
+
+
+
+
+      <div class="hero" style="text-align: center;
+      padding: 3rem 1rem ;">
+      
+ <span class="badge" style="background:#ff8c4230; color:#ffbc7a;"> A DETAILED </span>
+           
+        <h2 style="font-size: 1.4rem;">GUIDE FOR TROUBLESHOOTING  <br><span style="color:#ff8c42; ">AUTOMOTIVE ENGINES</span></h2>
+           <div class="sub">— STEP BY STEP  —</div>
+           
+
+        
+        
+
+<p style="text-align: justify; margin-top: 1vw; margin-bottom: 7vw;"> This troubleshooting guide serves as a reference for mechanics to identify, isolate, and resolve engine performance problems.</p>
+
+ 
+        
+    
+             
+ 
+      <style>
+    
+ img, {
+ float: center;
+ margin: 0 0 10px 10px;
+ width: 100%;
+ height: auto;
+ }
+ 
+.card {
+      transform: translateY(-8px);
+      border-color: #ff8c42cc;
+      box-shadow: 0 28px 36px -14px #000000aa;
+      border: 1.5px solid rgba(255,255,255,0.6);
+      border-color: #ff8c42cc;
+}
+
+ </style>
+ 
+<div class="card ">
+
+ 
+ <span><img src="https://images.unsplash.com/photo-1517524206127-48bbd363f3d7" alt="W3Schools.com" width="100%" height="20"></span>
+ 
+
+
+
+<p style="text-align: center; font-size: 3.5vw; font-weight: 800;
+      background: linear-gradient(185deg, #FFD966, #FF8C42, #E63946);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+;"> Twin Cylinder 4 Stroke Cycle V-Engine .</p>
+           
+</div>
+
+      
+        
+
+<p style="text-align: justify; margin-top: 4vw; margin-bottom: 8vw;"> It includes common failure patterns, step-by-step testing procedures and recommended fixes. By following such a guide, users can avoid unnecessary part replacements, reduce diagnostic time, and prevent minor issues from escalating into major engine damage. </p>
+
+            
+     
+     
+
+
+
+<a href="#" class="btn btn-outline-light" style="display: inline-flex;
+background: #1e2438;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 4.5vw;
+      text-decoration: none;
+      transition: 0.2s;  border: 1.5px solid rgba(255,255,255,0.6);
+      color: white; margin-top: 1vw; margin-bottom: 7vw;""></i>Instruction on how to Use</a>
+ 
+
+
+
+
+  
+  
+
+  <p style="text-align: center; font-size: 15vw;"> ⚙️🔧</p>
+
+
+          
+         <h1> ⚡THE OBJECTIVES OF THIS GUIDE ⚡</h1>
+   
+
+
+
+<p style="text-align: justify; margin-top: 0vw; margin-bottom: 8vw;"> This guide is aimed at solving common automotive engine issues such as hard starting, rough idling, stalling, loss of power, overheating, unusual noises such as knocking, ticking, or hissing, excessive oil or fuel consumption, check engine light warnings, and poor fuel economy. It helps diagnose root causes like faulty spark plugs, clogged fuel injectors, vacuum leaks, sensor failures, timing problems, or cooling system faults..</p>
+               
+       
+
+
+
+
+
+
+
+
+ <div class="badge" style="font-size:4vw; margin-bottom: 1.5vw;
+ font-family: sans-serif-condensed;
+   background: linear-gradient(270deg, #FFD966, #FF8C42, #FF8C42);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;">— COMPLETE INFORMATION ON THIS GUIDE  —</div> 
+
+
+  
+   <div><h4 class="txt" id="txtA" style="font-size:4vw;  text-decoration: underline white 0px;">Find out more below <span style="line-height: 0;  font-size: 3vw; position: relative; top: 0vw;"> 💡</span></h4> </div>
+
+
+       
+    <div class="engine-badge" style="position: relative; top: 0vw; margin-top: 0vw; margin-bottom: 25vw;">
+      <span>📄  About this Guide</span>
+      <span>🇳🇬  Developed by</span>
+      <span>📝  Licence </span>
+      
+      <span style=" position: relative; top: 2vw;">🔍 Frequently Asked Questions</span>
+    </div>
+    
+
+
+    
+     
+  </div></div>
+  
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+
+  
+
+<style>
+
+
+.tscard_slide {
+text-align: center; 
+width: device-width;
+height: auto;
+overflow: auto; 
+overflow-y: hidden;
+overflow-x: scroll;
+white-space: nowrap;
+scroll-behavior: smooth; scroll-snap-type: x mandatory; 
+position: relative; 
+margin: 3% 0% 0% 0% ; 
+transform: scale(1.0); 
+transform: rotate(0deg); 
+line-height: 0%; 
+font-family: sans-serif-thin; color:rgb(255,255,255); 
+float: center; 
+text-align:center;
+}
+
+
+.tscard  {
+position: relative;
+top: 0vw;
+left: 0%;  
+max-width: 100%; 
+min-width: 100%; 
+height: 40vh;
+border: 0.2px groove rgba(0,0,0,0.8);
+ border-radius: 3vw;
+font-size:6vw; 
+background-color: rgba(240, 235, 250, 1.0);
+box-shadow: rgba(0,0,0,0.5) 0px 0px 5px 1px;
+font-family: Arial, Helvetica,sans-serif; sans-serif-regular; 
+color: rgba(0,0,0,1.0); 
+display: inline-block;margin: 0px 0px 0px 0px ; 
+padding: 5% 5% 5% 5% ;
+line-height:1.35; 
+outline:0;
+float: center; 
+text-align: left; 
+text-justify: left; word-wrap: break-word;
+white-space: normal;
+overflow-wrap: break-word;
+scroll-behavior: smooth; scroll-snap-type: x mandatory; 
+flex-shrink: 0; 
+scroll-snap-align: center;  scroll-snap-align: center;  scroll-snap-stop: always;
+float: center; 
+}
+
+
+.tscardp{
+position: relative;
+top: 0vw;
+left: 0%;  
+max-width: 100%; 
+min-width: 100%; 
+height: auto;
+border: 0.2px groove rgba(0,0,0,0.8);
+ border-radius: 0vw;
+font-size:6vw; 
+background-color: rgba(240, 235, 250, 1.0);
+box-shadow: rgba(0,0,0,0.5) 0px 0px 5px 1px;
+font-family: Arial, Helvetica,sans-serif; sans-serif-regular; 
+color: rgb(50,50,50); 
+display: inline-block;margin: 0px 0px 0px 0px ; 
+padding: 5% 5% 5% 5% ;
+line-height:1.15; 
+outline:0;
+float: center; 
+text-align: left; 
+text-justify: left; word-wrap: break-word;
+white-space: normal;
+overflow-wrap: 
+break-word;
+}
+
+
+
+
+.tscard2  {
+position: relative;
+top: 0vw;
+left: 0%;  
+max-width: 100%; 
+min-width: 100%; 
+height: 40vh;
+border: 0.2px groove rgba(0,0,0,0.8);
+ border-radius: 3vw;
+font-size:6vw; 
+background: rgba(215, 240, 250, 1.0);
+box-shadow: rgba(0,0,0,0.5) 0px 0px 5px 1px;
+font-family: Arial, Helvetica,sans-serif; sans-serif-regular; 
+color: rgba(0,0,0,1.0); 
+display: inline-block;margin: 0px 0px 0px 0px ; 
+padding: 5% 5% 5% 5% ;
+line-height:1.35; 
+outline:0;
+float: center; 
+text-align: left; 
+text-justify: left; word-wrap: break-word;
+white-space: normal;
+overflow-wrap: break-word;
+scroll-behavior: smooth; scroll-snap-type: x mandatory; 
+flex-shrink: 0; 
+scroll-snap-align: center;  scroll-snap-align: center;  scroll-snap-stop: always;
+float: center; 
+}
+
+
+.tscardp2{
+position: relative;
+top: 0vw;
+left: 0%;  
+max-width: 100%; 
+min-width: 100%; 
+height: auto;
+border: 0.2px groove rgba(0,0,0,0.8);
+ border-radius: 0vw;
+font-size:6vw; 
+background: rgba(215, 240, 250, 1.0);
+box-shadow: rgba(0,0,0,0.5) 0px 0px 5px 1px;
+font-family: Arial, Helvetica,sans-serif; sans-serif-regular; 
+color: rgb(50,50,50); 
+display: inline-block;margin: 0px 0px 0px 0px ; 
+padding: 5% 5% 5% 5% ;
+line-height:1.15; 
+outline:0;
+float: center; 
+text-align: left; 
+text-justify: left; word-wrap: break-word;
+white-space: normal;
+overflow-wrap: 
+break-word;
+}
+
+
+
+
+
+
+
+
+ .tscardp strong {
+            color: #c13b0a;
+            font-weight: 650;
+            display: inline;
+            text-align: center;
+            text-transform: uppercase;
+        }
+       
+
+
+ .tscard strong {
+            color: #c13b0a;
+            font-weight: 650;
+            display: inline;
+            text-align: center;
+            text-transform: uppercase;
+        }
+        
+
+
+
+ .tscardp2 strong {
+            color: #c13b0a;
+            font-weight: 650;
+            display: inline;
+            text-align: center;
+            color: rgba(5,105,5,1.0);
+            text-transform: uppercase; 
+        }
+
+
+
+
+        .tscard2 strong {
+            color: #c13b0a;
+            font-weight: 650;
+            display: inline;
+            color: rgba(5,105,5,1.0);
+            text-transform: uppercase; 
+        }
+
+        
+
+</style>
+
+
+
+
+
+
+
+
+<div>
+
+
+
+
+<style>
+.flex-containertexr {
+align-items: center;
+justify-content: center;
+transition: all 0.2s;
+position: relative;
+top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: rgba(0,0,0,0.0);
+}
+
+.flex-containertext > div {
+  background-color: rgba(255,255,255,1.0);
+  color: rgba(0,0,0,1.0);
+  width: 100%;
+  height: auto;
+  margin: 0vw;
+  text-align: center;
+  line-height: 1.35;
+  font-size: 10vw;
+  float: center;
+  background: rgba(10, 18, 28, 1.0);
+  padding: 0% 0% 0% 0% ;
+  margin: 0% 0% 0% 0% ;
+}
+</style>
+
+
+<div class="flex-containertext">
+  <div>
+  
+
+<ul id="myUL" type="none">
+    <!--  GROUP 1 - eroded electrode -->
+    
+
+ <li class="li-bs" >
+    <a id="myParent1">
+   <p class="txt-ks">
+   
+<p class="tscardp" ><strong>Keywords: </strong>Abel Engine misfires, rough idle, hard starting, poor fuel economy.</p>
+
+   
+<div class="tscard_slide">
+
+
+
+
+<p class="tscard"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages</p>
+
+
+<p class="tscard"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages</p>
+
+
+<p class="tscard"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages.</p>
+
+
+</div>
+
+
+   
+<div class="tscard_slide">
+
+<p class="tscard"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages </p>
+
+
+
+<p class="tscard"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages.</p>
+
+
+<p class="tscard"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages.</p>
+
+
+</div>
+
+
+
+</p>
+        </a>
+    </li>
+
+
+
+
+
+
+ <li class="li-bs" >
+    <a id="myParent1">
+   <p class="txt-ks">
+   
+<p class="tscardp2" ><strong>Question: </strong>Ans Engine misfires, rough idle, hard starting, poor fuel economy</p>
+
+   
+<div class="tscard_slide">
+
+
+
+
+<p class="tscard2"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages</p>
+
+
+<p class="tscard2"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages</p>
+
+
+<p class="tscard2"><strong>poor fuel economy: </strong>This is a paragraph. It can be used on webpages.</p>
+
+
+</div>
+
+
+   
+</p>
+        </a>
+    </li>
+
+
+
+</ul>
+
+  </div>  
+  
+
+</div>
+  
+</div>
+
+  
+
+
+
+
+
+<style>
+
+#nav_but-cal{
+  background-color: rgba(0,0,0,.0);
+  border: 0px groove rgb(255,255,255); 
+  font-family: sans-serif-thin; color: rgba(255,255,255,0.8);font-size: 5vw;
+  line-height:1.35;
+  outline:0;
+}
+  
+#nav_but-cal:hover:not(.header-cal) {
+  background-color: rgba(0,0,0,0.0);
+  border: 0px groove rgb(255,255,255); 
+  font-family: sans-serif-thin; color: rgb(255,255,255);font-size: 5vw;
+  line-height:1.35;
+  outline:0;
+}
+  
+
+</style>
+
+
+  </div>  
+  
+
+
+
+
+
+  
+
+  <div>
+
+<a href="#"><input type="button" name="" style="position: fixed; bottom: 2%; right: 0vw; z-index: 0; flex-shrink: 0;   flex-basis: 100%; overflow: auto; width: 12vw;  height: 12vw;  border: 0.9vw solid  #b45b0f; border-radius: 300px; background-color: rgba(11,28,44,1.0);  box-shadow: rgba(0,0,0,0.0) 0px 0px 0px 0px; font-family: sans-serif-regular; color: rgba(255,255,255,1.0); font-weight: 300; font-size:8vw; line-height:0; outline:0; float: right; z-index:100; transform: rotate(180deg); " value="ↆ"></input></a>   
+  </div>
+  
+
+  <div>
+<footer> Troubleshooting Software for Automotive Engine Repairs<br> <strong>Wrtten with L<span style="position: relative; color: red;">❤</span>ve in Nigeria 🇳🇬 at: <br> <span style="position: relative; color: yellow; font-size: 5vw; line-height: 2.35;"> ASKABEZ Lab </span></strong><br>Contact: 08068227246</footer>
+  </div>  
+  
+
+</div>
+
+
+
+
+    
+ 
+    <!-- Sort & Filter 1 --!>
+    
+    
+    
+
+    <!-- FILTER --!>
+    
+
+
+
+
+
+
+<script>
+
+
+/* Hide all list items on page load */
+window.onload = function() {
+  hideAllItems();
+};
+
+/* Short function to hide everything */
+function myFunctionCal() {
+  hideAllItems();
+  // Optional: Clear the input field text manually if reset doesn't catch it
+  document.getElementById("myInput").value = ""; 
+}
+
+/* Reusable logic to hide the list */
+function hideAllItems() {
+  var li = document.getElementById("myUL").getElementsByTagName("li");
+  for (var i = 0; i < li.length; i++) {
+    li[i].style.display = "none";
+  }
+}
+
+/* Your existing search function */
+function myFunction() {
+  var input = document.getElementById("myInput");
+  var filter = input.value.trim().toLowerCase();
+  var li = document.getElementById("myUL").getElementsByTagName("li");
+
+  if (filter === "") {
+    hideAllItems();
+    return;
+  }
+
+  // Split input into an array of keywords, removing empty strings (extra spaces)
+  var keywords = filter.split(/\s+/);
+
+  for (var i = 0; i < li.length; i++) {
+    var a = li[i].getElementsByTagName("a")[0];
+    
+    // Normalize text: remove accents and convert to lowercase
+    var text = a.textContent || a.innerText;
+    var normalizedText = text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+    // Check if EVERY keyword is present in the text
+    var match = keywords.every(function(kw) {
+      var normalizedKW = kw.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      return normalizedText.indexOf(normalizedKW) > -1;
+    });
+
+    li[i].style.display = match ? "" : "none";
+  }
+}
+
+</script>
+
+
+
+
+
+</body>
+</html>
+
+
+
 # engineguide.github.io
